@@ -10,25 +10,26 @@
 
                                         <h4 class="card-title">Edit Profile Page</h4>
 
-                                        <form>
+                                        <form method="post" action="{{ route('store.profile') }}" enctype="multipart/form-data">
+                                            @csrf
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">Name</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" name="name" id="name" type="text" placeholder="" value="{{ $editData->name }}" id="example-text-input">
+                                                <input class="form-control" name="name" id="name" type="text" placeholder="" value="{{ $editData->name }}" >
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">User Email</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" name="email" id="email" type="email" placeholder="" value="{{ $editData->email }}" id="example-text-input">
+                                                <input class="form-control" name="email" id="email" type="email" placeholder="" value="{{ $editData->email }}" >
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="example-text-input" class="col-sm-2 col-form-label">User Name</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" name="username" id="username" type="text" placeholder="" value="{{ $editData->username }}" id="example-text-input">
+                                                <input class="form-control" name="username" id="username" type="text" placeholder="" value="{{ $editData->username }}" >
                                             </div>
                                         </div>
 
@@ -43,7 +44,7 @@
                                             <label for="example-text-input" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
 
-                                                <img id="showImage" class="rounded avatar-lg" src="{{ asset ('backend/assets/images/small/img-5.jpg') }}" alt="Card image cap">
+                                                <img id="showImage" class="rounded avatar-lg" src="{{ (!empty ($editData->profile_image))? url('upload/admin_images/'.$editData->profile_image):url('upload/no_image.jpg') }}">
                                             </div>
                                         </div>
                                         <input type="submit" class="btn btn-info waves-effect waves-light" value="Update Profile">
