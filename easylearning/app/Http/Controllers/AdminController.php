@@ -16,7 +16,12 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        $notification = array(
+            'message' => 'User Logout Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect('/login')->with($notification);
     }
 
 
@@ -57,5 +62,42 @@ class AdminController extends Controller
         );
 
         return redirect()->route('admin.profile')->with($notification);
+    }
+
+    public function ChangePassword()
+    {
+        return view('admin.admin_change_password');
+    }
+
+
+    public function UpdatePassword(Request $request)
+    {
+        // Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required|same:new_password',
+
+        ]);
+
+        // Match The Old Password
+        if (!Auth::guard('web')->attempt(['id' => Auth::user()->id, 'password' => $request->old_password])) {
+            $notification = array(
+                'message' => 'Old Password Does Not Match!',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
+        // Update the new Password
+        $user = User::find(Auth::user()->id);
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+
+        $notification = array(
+            'message' => 'Password Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
     }
 }
