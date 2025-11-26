@@ -3,11 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Home\HomeSlideController;
 
 Route::get('/', function () {
     return view('frontend.index');
 });
 
+//
 Route::get('/dashboard', function () {
     return view('admin.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -17,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+//Admin All Route
 Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/logout', 'destroy')->name('admin.logout');
     Route::get('/admin/profile', 'Profile')->name('admin.profile');
@@ -25,5 +30,16 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/changepassword', 'ChangePassword')->name('change.password');
     Route::post('/admin/password/update', 'UpdatePassword')->name('update.password');
 
+
 });
+
+
+//Home Slide All Route
+Route::controller(HomeSlideController::class)->group(function () {
+    Route::get('/admin/home_slide_edit', 'HomeSlider')->name('home.slide');
+    Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
+
+
+});
+
 require __DIR__ . '/auth.php';
