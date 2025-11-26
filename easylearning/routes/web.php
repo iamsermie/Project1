@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Home\HomeSlideController;
+use App\Http\Controllers\About\AboutController;
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -40,6 +41,16 @@ Route::controller(HomeSlideController::class)->group(function () {
     Route::post('/update/slider', 'UpdateSlider')->name('update.slider');
 
 
+
 });
 
+
+//About Page All Route
+Route::controller(AboutController::class)->group(function () {
+    Route::get('/admin/about_page_edit', 'AboutUpdate')->name('about.page');
+    Route::post('admin/about/edit', 'AboutEdit')->name('about.update');
+    Route::get('/about', 'AboutPage')->name('aboutpage.front');
+
+
+});//About Page Route
 require __DIR__ . '/auth.php';

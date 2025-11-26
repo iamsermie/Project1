@@ -61,4 +61,8 @@ class HomeSlideController extends Controller
         }
 
     }
+
+
+
+
 }
